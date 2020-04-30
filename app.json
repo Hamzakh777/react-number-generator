@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": ".",
-    "slug": ".",
+    "name": "numbers-generator",
+    "slug": "numbers-generator",
     "platforms": [
       "ios",
       "android",
