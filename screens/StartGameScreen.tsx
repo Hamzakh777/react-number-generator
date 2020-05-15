@@ -6,13 +6,36 @@ import colors from '../constants/colors';
 
 const StartGameScreen = () => {
 	const [enteredValue, setEnteredValue] = useState('');
-
+	const [confirmed , setConfirmed] = useState(false);
+	const [selectedNumber, setSelectedNumber] = useState<number>(0);
 	const numberInputHandler = (text: string): void  => {
 		setEnteredValue(text.replace(/[^0-9]/g, ''));
 	}
 
+	const resetInputHandler = () => {
+		setConfirmed(false);
+		setEnteredValue('');
+	};
+
+	const confirmInputHandler = () => { 
+		const chosenNumber = parseInt(enteredValue);
+		if (chosenNumber === NaN || chosenNumber <= 0 || chosenNumber > 99) {
+			return;
+		}
+
+		setConfirmed(true);
+		setSelectedNumber(chosenNumber);
+		setEnteredValue('');
+
+	};
+	
+	let confirmedOutput; 
+	if (confirmed) {
+		confirmedOutput = <Text>Chosen number: {selectedNumber}</Text>
+	}
+
 	return (
-		// on IOS clicking outside the input to close the 
+		// on IOS clicking outside the input to close the
 		// keyboard doesn't work, so we use touchablewithoutfeedback
 		<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
 			<View style={styles.container}>
@@ -31,13 +54,22 @@ const StartGameScreen = () => {
 					/>
 					<View style={styles.btnContainer}>
 						<View style={styles.button}>
-							<Button title="reset" onPress={() => { }} color={colors.accent}/>
-						</View> 
+							<Button
+								title="reset"
+								onPress={resetInputHandler}
+								color={colors.accent}
+							/>
+						</View>
 						<View style={styles.button}>
-							<Button title="Confirm" onPress={() => { }} color={colors.primary}/>
-						</View> 
+							<Button
+								title="Confirm"
+								onPress={confirmInputHandler}
+								color={colors.primary}
+							/>
+						</View>
 					</View>
 				</Card>
+				{confirmedOutput}
 			</View>
 		</TouchableWithoutFeedback>
 	);
