@@ -42,6 +42,7 @@ const StartGameScreen = () => {
 	
 	let confirmedOutput; 
 	if (confirmed) {
+		// console.log
 		confirmedOutput = <Text>Chosen number: {selectedNumber}</Text>
 	}
 
