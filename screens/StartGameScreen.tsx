@@ -1,23 +1,33 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Text, Button, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
+import {
+	View,
+	StyleSheet,
+	Text,
+	Button,
+	TouchableWithoutFeedback,
+	Keyboard,
+	Alert,
+} from 'react-native';
 import Card from '../components/Card';
 import Input from '../components/Input';
+import NumberContainer from '../components/NumberContainer';
 import colors from '../constants/colors';
+
 
 const StartGameScreen = () => {
 	const [enteredValue, setEnteredValue] = useState('');
-	const [confirmed , setConfirmed] = useState(false);
+	const [confirmed, setConfirmed] = useState(false);
 	const [selectedNumber, setSelectedNumber] = useState<number>(0);
-	const numberInputHandler = (text: string): void  => {
+	const numberInputHandler = (text: string): void => {
 		setEnteredValue(text.replace(/[^0-9]/g, ''));
-	}
+	};
 
 	const resetInputHandler = () => {
 		setConfirmed(false);
 		setEnteredValue('');
 	};
 
-	const confirmInputHandler = () => { 
+	const confirmInputHandler = () => {
 		const chosenNumber = parseInt(enteredValue);
 		if (isNaN(chosenNumber) || chosenNumber <= 0 || chosenNumber > 99) {
 			Alert.alert(
@@ -25,10 +35,10 @@ const StartGameScreen = () => {
 				'A number has to be between 1 and 99',
 				[
 					{
-						text: 'Okay', 
+						text: 'Okay',
 						style: 'destructive',
-						onPress: resetInputHandler
-					}
+						onPress: resetInputHandler,
+					},
 				]
 			);
 			return;
@@ -37,13 +47,18 @@ const StartGameScreen = () => {
 		setConfirmed(true);
 		setSelectedNumber(chosenNumber);
 		setEnteredValue('');
-
 	};
-	
-	let confirmedOutput; 
+
+	let confirmedOutput;
 	if (confirmed) {
 		// console.log
-		confirmedOutput = <Text>Chosen number: {selectedNumber}</Text>
+		confirmedOutput = (
+			<Card style={styles.summaryCard}>
+				<Text style={styles.summaryCardText}>You Selected</Text>
+				<NumberContainer>{selectedNumber}</NumberContainer>
+				<Button title="START GAME" onPress={() => {}}/>
+			</Card>
+		);
 	}
 
 	return (
@@ -110,10 +125,20 @@ const styles = StyleSheet.create({
 		marginVertical: 10,
 	},
 	button: {
-		width: 90
+		width: 90,
 	},
 	input: {
 		width: 80,
+		textAlign: 'center',
+	},
+	summaryCard: {
+		alignItems: 'center',
+		justifyContent: 'center',
+		width: 300,
+		padding: 20,
+		marginTop: 20
+	},
+	summaryCardText: {
 		textAlign: 'center'
 	}
 });
