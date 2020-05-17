@@ -47,6 +47,7 @@ const StartGameScreen = () => {
 		setConfirmed(true);
 		setSelectedNumber(chosenNumber);
 		setEnteredValue('');
+		Keyboard.dismiss();
 	};
 
 	let confirmedOutput;
