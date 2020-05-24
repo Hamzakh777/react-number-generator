@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, FunctionComponent } from 'react';
 import {
 	View,
 	StyleSheet,
@@ -13,8 +13,11 @@ import Input from '../components/Input';
 import NumberContainer from '../components/NumberContainer';
 import colors from '../constants/colors';
 
+type TStartGameScreen = {
+	onStartGame(number: number): void
+}
 
-const StartGameScreen = () => {
+const StartGameScreen: FunctionComponent<TStartGameScreen> = (props) => {
 	const [enteredValue, setEnteredValue] = useState('');
 	const [confirmed, setConfirmed] = useState(false);
 	const [selectedNumber, setSelectedNumber] = useState<number>(0);
@@ -57,7 +60,10 @@ const StartGameScreen = () => {
 			<Card style={styles.summaryCard}>
 				<Text style={styles.summaryCardText}>You Selected</Text>
 				<NumberContainer>{selectedNumber}</NumberContainer>
-				<Button title="START GAME" onPress={() => {}}/>
+				<Button
+					title="START GAME"
+					onPress={() => props.onStartGame(selectedNumber)}
+				/>
 			</Card>
 		);
 	}
