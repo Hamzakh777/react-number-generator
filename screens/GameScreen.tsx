@@ -1,7 +1,7 @@
 import React, { useState, FunctionComponent } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-type TGameScreenProps { 
+type TGameScreenProps = { 
     userChoice: number
 }
 
