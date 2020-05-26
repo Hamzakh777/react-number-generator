@@ -1,10 +1,11 @@
-import React, { useState,useRef, FunctionComponent } from 'react';
+import React, { useState, useRef, FunctionComponent, useEffect } from 'react';
 import { View, Text, Button, StyleSheet, Alert } from 'react-native';
 import NumberContainer from '../components/NumberContainer';
 import Card from '../components/Card';
 
 type TGameScreenProps = {
-	userChoice: number;
+    userChoice: number;
+    onGameOver(number: number): void
 };
 
 enum Direction {
@@ -28,9 +29,18 @@ const generateRandomNumber = (
 };
 
 const GameScreen: FunctionComponent<TGameScreenProps> = (props) => {
+    const { userChoice, onGameOver } = props;
 	const [currentGuess, setCurrentGuess] = useState(
 		generateRandomNumber(1, 100, props.userChoice)
     );
+    const [rounds, setRounds] = useState(0);
+
+    // useEffect runs after every render cycle
+    useEffect(() => {
+		if (currentGuess === userChoice) {
+			props.onGameOver(rounds);
+		}
+	}, [currentGuess, userChoice, onGameOver]);
     
     // useRef allows to save a value even if the component re-renders
     // also we don't want to re-render the component by changing something that
@@ -41,8 +51,8 @@ const GameScreen: FunctionComponent<TGameScreenProps> = (props) => {
 	const nextGuessHandler = (direction: number): void => {
 		if (
 			(direction === Direction.lower &&
-				currentGuess < props.userChoice) ||
-			(direction === Direction.higher && currentGuess > props.userChoice)
+				currentGuess < userChoice) ||
+			(direction === Direction.higher && currentGuess > userChoice)
 		) {
 			Alert.alert("Don't lie!!", 'You know that this is wrong....', [
 				{ text: 'Sorry', style: 'cancel' },
@@ -58,6 +68,7 @@ const GameScreen: FunctionComponent<TGameScreenProps> = (props) => {
         }
         const nextNumber = generateRandomNumber(currentLow.current, currentHigh.current, currentGuess);
         setCurrentGuess(nextNumber);
+        setRounds(currentRounds => currentRounds + 1);
 	};
 
 	return (
