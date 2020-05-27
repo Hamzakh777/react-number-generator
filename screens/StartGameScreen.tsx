@@ -128,8 +128,9 @@ const styles = StyleSheet.create({
 		padding: 20,
 	},
 	title: {
-		fontSize: 20,
 		marginVertical: 10,
+		fontSize: 20,
+		fontFamily: 'open-sans-bold',
 	},
 	button: {
 		width: 90,
