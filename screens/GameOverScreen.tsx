@@ -14,7 +14,11 @@ const GameOverScreen: FunctionComponent<TGameOverScreen> = (props) => {
 			<View style={styles.imageContainer}>
 				<Image
 					style={styles.image}
-					source={require('../assets/success.png')}
+					// source={require('../assets/success.png')}
+					source={{
+						uri:
+							'https://www.yourdictionary.com/images/definitions/lg/12337.summit.jpg',
+					}}
 					resizeMode="cover"
 				/>
 			</View>
@@ -42,7 +46,7 @@ const styles = StyleSheet.create({
 		borderRadius: 150,
 		borderWidth: 3,
 		borderColor: 'black',
-		overflow: 'hidden'
+		overflow: 'hidden',
 	},
 });
 
