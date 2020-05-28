@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { View, Text, Button, StyleSheet, Image } from 'react-native';
+import colors from '../constants/colors';
 
 type TGameOverScreen = {
 	roundsNumber: number;
@@ -22,7 +23,9 @@ const GameOverScreen: FunctionComponent<TGameOverScreen> = (props) => {
 					resizeMode="cover"
 				/>
 			</View>
-			<Text>Number of rounds: {props.roundsNumber}</Text>
+			<Text>
+				Number of rounds: <Text style={styles.highlight}>{props.roundsNumber}</Text>
+			</Text>
 			<Text>Number was: {props.userNumber}</Text>
 			<Button title="New Game" onPress={props.onStartNewGame} />
 		</View>
@@ -47,6 +50,9 @@ const styles = StyleSheet.create({
 		borderWidth: 3,
 		borderColor: 'black',
 		overflow: 'hidden',
+	},
+	highlight: {
+		color: colors.primary
 	},
 });
 
