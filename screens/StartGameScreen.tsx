@@ -11,6 +11,7 @@ import {
 import Card from '../components/Card';
 import Input from '../components/Input';
 import NumberContainer from '../components/NumberContainer';
+import BaseButton from '../components/BaseButton';
 import colors from '../constants/colors';
 
 type TStartGameScreen = {
@@ -60,10 +61,11 @@ const StartGameScreen: FunctionComponent<TStartGameScreen> = (props) => {
 			<Card style={styles.summaryCard}>
 				<Text style={styles.summaryCardText}>You Selected</Text>
 				<NumberContainer>{selectedNumber}</NumberContainer>
-				<Button
-					title="START GAME"
+				<BaseButton
 					onPress={() => props.onStartGame(selectedNumber)}
-				/>
+				>
+					START GAME
+				</BaseButton>
 			</Card>
 		);
 	}
