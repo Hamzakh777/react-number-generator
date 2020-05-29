@@ -102,8 +102,8 @@ const GameScreen: FunctionComponent<TGameScreenProps> = (props) => {
 					<Ionicons name="md-add" size={24} color="white" />
 				</BaseButton>
 			</Card>
-			<View style={styles.list}>
-				<ScrollView>
+			<View style={styles.listContainer}>
+				<ScrollView contentContainerStyle={styles.list}>
 					{pastGuesses.map((guess) => renderListItem(guess))}
 				</ScrollView>
 			</View>
@@ -133,10 +133,15 @@ const styles = StyleSheet.create({
 		borderColor: '#ccc',
 		backgroundColor: 'white',
 	},
-	list: {
+	listContainer: {
 		flex: 1,
 		width: '80%',
-	}
+	},
+	list: {
+		flexGrow: 1,
+		alignItems: 'center',
+		justifyContent: 'flex-end',
+	},
 });
 
 export default GameScreen;
