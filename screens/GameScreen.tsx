@@ -1,6 +1,9 @@
 import React, { useState, useRef, FunctionComponent, useEffect } from 'react';
 import { View, Text, Button, StyleSheet, Alert } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+
 import NumberContainer from '../components/NumberContainer';
+import BaseButton from '../components/BaseButton';
 import Card from '../components/Card';
 
 type TGameScreenProps = {
@@ -76,14 +79,12 @@ const GameScreen: FunctionComponent<TGameScreenProps> = (props) => {
 			<Text>Opponent's guess</Text>
 			<NumberContainer>{currentGuess}</NumberContainer>
 			<Card style={styles.buttonContainer}>
-				<Button
-					title="LOWER"
-					onPress={() => nextGuessHandler(Direction.lower)}
-				/>
-				<Button
-					title="GREATER"
-					onPress={() => nextGuessHandler(Direction.higher)}
-				/>
+				<BaseButton onPress={() => nextGuessHandler(Direction.lower)}>
+					<Ionicons name="md-remove" size={24} color="white" />
+				</BaseButton>
+				<BaseButton onPress={() => nextGuessHandler(Direction.higher)}>
+					<Ionicons name="md-add" size={24} color="white" />
+				</BaseButton>
 			</Card>
 		</View>
 	);
