@@ -1,5 +1,5 @@
 import React, { useState, useRef, FunctionComponent, useEffect } from 'react';
-import { View, Text, Button, StyleSheet, Alert } from 'react-native';
+import { View, Text, StyleSheet, Alert, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 import NumberContainer from '../components/NumberContainer';
@@ -7,8 +7,8 @@ import BaseButton from '../components/BaseButton';
 import Card from '../components/Card';
 
 type TGameScreenProps = {
-    userChoice: number;
-    onGameOver(number: number): void
+	userChoice: number;
+	onGameOver(number: number): void;
 };
 
 enum Direction {
@@ -32,46 +32,53 @@ const generateRandomNumber = (
 };
 
 const GameScreen: FunctionComponent<TGameScreenProps> = (props) => {
-    const { userChoice, onGameOver } = props;
-	const [currentGuess, setCurrentGuess] = useState(
-		generateRandomNumber(1, 100, props.userChoice)
-    );
-    const [rounds, setRounds] = useState(0);
+	const { userChoice, onGameOver } = props;
+	const initialGuess = generateRandomNumber(1, 100, props.userChoice);
+	const [currentGuess, setCurrentGuess] = useState(initialGuess);
+	const [pastGuesses, setPastGuesses] = useState<Array<number>>([
+		initialGuess,
+	]);
 
-    // useEffect runs after every render cycle
-    useEffect(() => {
+	// useEffect runs after every render cycle
+	useEffect(() => {
 		if (currentGuess === userChoice) {
-			props.onGameOver(rounds);
+			props.onGameOver(pastGuesses.length);
 		}
 	}, [currentGuess, userChoice, onGameOver]);
-    
-    // useRef allows to save a value even if the component re-renders
-    // also we don't want to re-render the component by changing something that
-    // has nothing to do with the state
-    const currentLow = useRef(1);
-    const currentHigh = useRef(2);
+
+	// useRef allows to save a value even if the component re-renders
+	// also we don't want to re-render the component by changing something that
+	// has nothing to do with the state
+	const currentLow = useRef(1);
+	const currentHigh = useRef(2);
 
 	const nextGuessHandler = (direction: number): void => {
 		if (
-			(direction === Direction.lower &&
-				currentGuess < userChoice) ||
+			(direction === Direction.lower && currentGuess < userChoice) ||
 			(direction === Direction.higher && currentGuess > userChoice)
 		) {
 			Alert.alert("Don't lie!!", 'You know that this is wrong....', [
 				{ text: 'Sorry', style: 'cancel' },
-            ]);
+			]);
 
-            return;
-        }
-        // generate a new number
-        if (direction === Direction.lower) {
-            currentHigh.current = currentGuess;
-        } else {
-            currentLow.current = currentGuess;
-        }
-        const nextNumber = generateRandomNumber(currentLow.current, currentHigh.current, currentGuess);
-        setCurrentGuess(nextNumber);
-        setRounds(currentRounds => currentRounds + 1);
+			return;
+		}
+		// generate a new number
+		if (direction === Direction.lower) {
+			currentHigh.current = currentGuess;
+		} else {
+			currentLow.current = currentGuess + 1;
+		}
+		const nextNumber = generateRandomNumber(
+			currentLow.current,
+			currentHigh.current,
+			currentGuess
+		);
+		setCurrentGuess(nextNumber);
+		setPastGuesses((currentPastGuesses) => [
+			nextNumber,
+			...currentPastGuesses,
+		]);
 	};
 
 	return (
@@ -86,6 +93,13 @@ const GameScreen: FunctionComponent<TGameScreenProps> = (props) => {
 					<Ionicons name="md-add" size={24} color="white" />
 				</BaseButton>
 			</Card>
+			<ScrollView>
+				{pastGuesses.map((guess) => (
+					<View key={guess}>
+						<Text>{guess}</Text>
+					</View>
+				))}
+			</ScrollView>
 		</View>
 	);
 };
