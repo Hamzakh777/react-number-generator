@@ -46,6 +46,15 @@ const GameScreen: FunctionComponent<TGameScreenProps> = (props) => {
 		}
 	}, [currentGuess, userChoice, onGameOver]);
 
+	const renderListItem = (value: number): JSX.Element => {
+		return (
+			<View style={styles.listItem} key={value}>
+				<Text>#</Text>
+				<Text>{value}</Text>
+			</View>
+		);
+	};
+
 	// useRef allows to save a value even if the component re-renders
 	// also we don't want to re-render the component by changing something that
 	// has nothing to do with the state
@@ -93,13 +102,11 @@ const GameScreen: FunctionComponent<TGameScreenProps> = (props) => {
 					<Ionicons name="md-add" size={24} color="white" />
 				</BaseButton>
 			</Card>
-			<ScrollView>
-				{pastGuesses.map((guess) => (
-					<View key={guess}>
-						<Text>{guess}</Text>
-					</View>
-				))}
-			</ScrollView>
+			<View style={styles.list}>
+				<ScrollView>
+					{pastGuesses.map((guess) => renderListItem(guess))}
+				</ScrollView>
+			</View>
 		</View>
 	);
 };
@@ -118,6 +125,18 @@ const styles = StyleSheet.create({
 		width: 300,
 		maxWidth: '80%',
 	},
+	listItem: {
+		flexDirection: 'row',
+		justifyContent: 'space-around',
+		marginVertical: 10,
+		padding: 15,
+		borderColor: '#ccc',
+		backgroundColor: 'white',
+	},
+	list: {
+		flex: 1,
+		width: '80%',
+	}
 });
 
 export default GameScreen;
